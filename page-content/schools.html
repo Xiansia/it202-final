@@ -53,33 +53,50 @@
 
   let limit = 50;
 
-
+  var selection = 0;
 
   $("button#searchSchools").off("click");
 
   $("button#searchSchools").on("click", (e) => {
+    selection = 0;
     getSchools();
   });
     
   $("button#ESchools").on("click", (e) => {
-    getSchools();
+    selection = 1;
+    getSchools(selection);
   });
   $("button#MSchools").on("click", (e) => {
-    getSchools();
+        selection = 2;
+    getSchools(selection);
   });
   $("button#HSchools").on("click", (e) => {
-    getSchools();
+        selection = 3;  
+    getSchools(selection);
   });
     
   $("button")
 
 
 
-  let getSchools = () => {
+  let getSchools = (selection) => {
     let url = endpoint + "$limit=" + limit;
 
     let divider = $("ul#listSchools .mdc-list-divider.template");
-
+    switch(selection){
+        case 0:
+            break;
+        case 1:
+            url += "&is_high_school=true"
+            break;
+        case 2:
+            url += "&is_middle_school=true"
+            break;
+        case 3:
+            url += "&is_pre_school=true"
+            break;
+            
+    }
     $.get(url, (response) => {
       console.log(response);
       $.each(response, (i,v) => {
@@ -93,16 +110,27 @@
         dividerClone.removeClass("template");
 
         // set values
-        clone.find(".mdc-list-item__primary-text").text(v.long_name)
-
+        clone.find(".mdc-list-item__primary-text").text("Name: " + v.long_name);
+        clone.find(".mdc-list-item__secondary-text").text("School id: " + v.school_id + " Address: " + v.address);
+          
 
         // append to list
         $("ul#listSchools").append(dividerClone);
         
         
         $("ul#listSchools").append(clone);
-
+       var location = {lat: parseFloat(v.school_latitude), lng: parseFloat(v.school_longitude)};   
+       var marker = new google.maps.Marker({
+                  position: location,
+                  map: map,
+                  title: v.long_name
+        });
       });
+      
+      let clone2 = $("ul#listSchools .mdc-list-item.template").clone();
+      clone2.removeClass("template");
+      clone2.find(".mdc-list-item__primary-text").text("Results Found: " + response.length);
+      $("ul#listSchools").append(clone2);
     });
   }
 
