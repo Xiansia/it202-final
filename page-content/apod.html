@@ -5,11 +5,31 @@
 
 <script>
   let url = "https://api.nasa.gov/planetary/apod?api_key=nxtMjihbq1ZPBiPcUKOym6IlVMvD4bEeNvJTbS1l";
-
+  var result;
+  
   $.get(url, (response) => {
     console.log(response);
-  })
+    result = response;
+      
+      var html = "";
+      html += "<div class='mdc-card demo-card'>";
+      html += "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>";
+      html += "<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;'" + result.url + "&quot;);></div>";
+      html += "<div class='demo-card__primary'>"
+      html += "<h2 class='demo-card__title mdc-typography mdc-typography--headline6'>" + result.title + "</h2>";
+      html += "<h3 class='demo-card__subtitle mdc-typography mdc-typography--subtitle2'>" + result.copyright + "</h3>" + "</div>";
+      html += "<div class='demo-card__secondary mdc-typography mdc-typography--body2'>" + result.explaination + "</div>";
+      html += "<div class='mdc-card__actions'>"
+      html += "<div class='mdc-card__action-buttons'>"
+      html += "<button class='mdc-button mdc-card__action mdc-card__action--button'>  <span class='mdc-button__ripple'></span>View HD Image</button>" + "</div>"
 
+      html+="</div>" + "</div>";
+      $("#apod").html(html);  
+  
+  });
+  
 
+    
+    
 
 </script>
