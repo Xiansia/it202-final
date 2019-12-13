@@ -272,10 +272,10 @@ navigator.geolocation.getCurrentPosition(success, error, options);
 
 
     <script>
-              // if ('serviceWorker' in navigator) {
-              //   navigator.serviceWorker
-              //            .register('./sw.js');
-              // }
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                         .register('./sw.js');
+              }
       
       </script>
 
